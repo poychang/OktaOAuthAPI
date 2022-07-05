@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <button onclick="authorize();"> 登入時轉向到 Okta 做身分驗證 </button>
+    <pre id="content"></pre>
+
+    <script>
+        (function () {
+            if (window.location.search) {
+                const urlSearchParams = new URLSearchParams(window.location.search);
+                const params = Object.fromEntries(urlSearchParams.entries());
+                const userinfo = JSON.parse(params.userinfo);
+                console.log(userinfo);
+                document.getElementById('content').innerHTML = JSON.stringify(userinfo);
+            }
+        })();
+
+        function authorize() {
+            const domain = window.location.host;
+            window.location.href = `https://${domain}/api/Authorize?callback=https%3A%2F%2F${domain}%2Fwebapp.html`;
+        }
+    </script>
+</body>
+</html>
